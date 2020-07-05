@@ -2,19 +2,31 @@ package com.example.loansdebts
 
 import android.os.Bundle
 import android.view.Menu
+import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.room.RoomDatabase
+import com.example.loansdebts.data.NotebookDatabase
+import com.example.loansdebts.data.dao.ContactDao
+import com.example.loansdebts.data.model.Contact
+import com.example.loansdebts.ui.AddContact
 import com.example.loansdebts.ui.CustomDialog
 import com.example.loansdebts.ui.ListAdapter
-import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.android.synthetic.main.content_main.recyclerView
+
 
 class MainActivity : AppCompatActivity() {
 
-    private val adapter=ListAdapter()
+    private val adapter=ListAdapter(this)
+    private lateinit var dao:ContactDao
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,9 +34,11 @@ class MainActivity : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         recyclerView.adapter=adapter
+        recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+        dao=NotebookDatabase.getInstance(this).dao()
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener {
-            val dialog =CustomDialog(this,this)
+            val dialog=CustomDialog(this,this)
             dialog.show()
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
@@ -33,18 +47,41 @@ class MainActivity : AppCompatActivity() {
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
         navView.setNavigationItemSelectedListener {
-            when(it.itemId){
-                R.id.nav_qosiw->{
-                    val dialog =CustomDialog(this,this)
+            when (it.itemId) {
+                R.id.nav_qosiw -> {
+                    val dialog = CustomDialog(this, this)
                     dialog.show()
-                    return@setNavigationItemSelectedListener true}
-                R.id.nav_tariyx->{return@setNavigationItemSelectedListener true}
-                R.id.nav_rezerv->{return@setNavigationItemSelectedListener true}
-                R.id.nav_sazlaw->{return@setNavigationItemSelectedListener true}
-                R.id.nav_dastur->{return@setNavigationItemSelectedListener true}
-                else->return@setNavigationItemSelectedListener false
+                    return@setNavigationItemSelectedListener true
+                }
+                R.id.nav_tariyx -> {
+                    return@setNavigationItemSelectedListener true
+                }
+                R.id.nav_rezerv -> {
+                    return@setNavigationItemSelectedListener true
+                }
+                R.id.nav_sazlaw -> {
+                    return@setNavigationItemSelectedListener true
+                }
+                R.id.nav_dastur -> {
+                    return@setNavigationItemSelectedListener true
+                }
+                else -> return@setNavigationItemSelectedListener false
             }
         }
+        drawerLayout.closeDrawer(GravityCompat.START)
+    }
+
+
+    fun addContact(contact:Contact){
+        dao.insertContact(contact)
+        adapter.models= dao.getAllContact()
+    }
+
+    fun onOptionsButtonClick(view: View){
+        val optionsMenu=PopupMenu(this,view)
+        val menuInflater=optionsMenu.menuInflater
+        menuInflater.inflate(R.menu.menu_item_options,optionsMenu.menu)
+        optionsMenu.show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
