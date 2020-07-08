@@ -1,11 +1,7 @@
 package com.example.loansdebts.data.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.example.loansdebts.data.model.Contact
-import com.example.loansdebts.ui.AddContact
 
 @Dao
 interface ContactDao {
@@ -14,5 +10,14 @@ interface ContactDao {
     fun insertContact(contact:Contact)
 
     @Query("SELECT * FROM notebook")
-    fun getAllContact():List<AddContact>
+    fun getAllContact():List<Contact>
+
+    @Delete
+    fun deleteContact(contact: Contact)
+
+    @Update
+    fun updateContact(contact: Contact)
+
+    @Query("SELECT * FROM notebook where id=:id")
+    fun getContactById(id:Int):Contact
 }

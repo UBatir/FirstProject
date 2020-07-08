@@ -1,9 +1,11 @@
 package com.example.loansdebts
 
+import android.icu.text.Transliterator
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import androidx.drawerlayout.widget.DrawerLayout
@@ -12,12 +14,11 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.room.RoomDatabase
 import com.example.loansdebts.data.NotebookDatabase
 import com.example.loansdebts.data.dao.ContactDao
 import com.example.loansdebts.data.model.Contact
-import com.example.loansdebts.ui.AddContact
 import com.example.loansdebts.ui.CustomDialog
+import com.example.loansdebts.ui.DialogRename
 import com.example.loansdebts.ui.ListAdapter
 import kotlinx.android.synthetic.main.content_main.recyclerView
 
@@ -36,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter=adapter
         recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         dao=NotebookDatabase.getInstance(this).dao()
+        adapter.models= dao.getAllContact()
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener {
             val dialog=CustomDialog(this,this)
@@ -71,16 +73,46 @@ class MainActivity : AppCompatActivity() {
         drawerLayout.closeDrawer(GravityCompat.START)
     }
 
-
     fun addContact(contact:Contact){
         dao.insertContact(contact)
         adapter.models= dao.getAllContact()
     }
 
-    fun onOptionsButtonClick(view: View){
+    private fun removeContact(contact: Contact){
+        dao.deleteContact(contact)
+        adapter.models=dao.getAllContact()
+    }
+
+    fun renameContact(contact: Contact){
+        dao.updateContact(contact)
+        adapter.models=dao.getAllContact()
+    }
+
+
+    fun onOptionsButtonClick(view: View,contact: Contact,id:Int){
         val optionsMenu=PopupMenu(this,view)
         val menuInflater=optionsMenu.menuInflater
         menuInflater.inflate(R.menu.menu_item_options,optionsMenu.menu)
+        optionsMenu.setOnMenuItemClickListener {
+            when(it.itemId){
+                R.id.itemRename->{
+                    val dialog=DialogRename(id,this)
+                    dialog.show()
+                }
+                R.id.itemDelete -> {
+                    val dialog=AlertDialog.Builder(this)
+                    dialog.setTitle("Oshiriw")
+                    dialog.setMessage("ofnonvjna")
+                    dialog.setPositiveButton("Oshiriw"){_,_->
+                        removeContact(contact)
+                    }
+                    dialog.setNegativeButton("Biykarlaw"){_,_->
+                    }
+                    dialog.show()
+                }
+            }
+            return@setOnMenuItemClickListener true
+        }
         optionsMenu.show()
     }
 

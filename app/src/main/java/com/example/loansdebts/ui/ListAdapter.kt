@@ -1,27 +1,36 @@
 package com.example.loansdebts.ui
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.loansdebts.MainActivity
 import com.example.loansdebts.R
+import com.example.loansdebts.data.model.Contact
 import kotlinx.android.synthetic.main.item_contact.view.*
 
 class ListAdapter(private val activity: MainActivity):RecyclerView.Adapter<ListAdapter.ListViewHolder>() {
 
+
     inner class ListViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
-        fun populateModel(model:AddContact,activity: MainActivity){
+        fun populateModel(model:Contact,activity: MainActivity){
             itemView.tvName.text=model.name
             itemView.tvSumma.text=model.summa
             itemView.tvKommentariy.text=model.comment
             itemView.btnOptions.setOnClickListener{
-                activity.onOptionsButtonClick(itemView.btnOptions)
+                activity.onOptionsButtonClick(itemView.btnOptions,model,model.id)
+            }
+            if(model.debt==1){
+                itemView.tvSumma.setTextColor(Color.rgb(76,175,80))
+            }
+            else{
+                itemView.tvSumma.setTextColor(Color.rgb(229,57,53))
             }
         }
     }
 
-    var models: List<AddContact> = listOf()
+    var models: List<Contact> = listOf()
         set(value) {
             field = value
             notifyDataSetChanged()

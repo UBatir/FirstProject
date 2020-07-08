@@ -4,19 +4,12 @@ import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.ListAdapter
+import android.widget.Toast
 import com.example.loansdebts.MainActivity
 import com.example.loansdebts.R
 import com.example.loansdebts.data.model.Contact
-import kotlinx.android.synthetic.main.content_main.*
-import kotlinx.android.synthetic.main.dialog_qosiw.*
-import kotlinx.android.synthetic.main.fragment.*
-import kotlinx.android.synthetic.main.fragment.recyclerView
-import kotlinx.android.synthetic.main.item_contact.*
-import java.text.FieldPosition
+import kotlinx.android.synthetic.main.dialog_add_contact.*
 import java.util.*
 
 class CustomDialog(context: Context, private val activity: MainActivity):Dialog(context)    {
@@ -25,19 +18,31 @@ class CustomDialog(context: Context, private val activity: MainActivity):Dialog(
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.dialog_qosiw)
+        setContentView(R.layout.dialog_add_contact)
         val c=Calendar.getInstance()
         val year=c.get(Calendar.YEAR)
         val month=c.get(Calendar.MONTH)
         val day=c.get(Calendar.DAY_OF_MONTH)
         tvSane.text="$day.${month+1}.$year"
         btnPayda.setOnClickListener {
-            activity.addContact(Contact(etName.text.toString(),etKommentariy.text.toString(),"+${etSumma.text.toString()}","$day.${month+1}.$year"))
+            if(etName.text.toString() == ""){
+                Toast.makeText(context,"Ati kirgizilmegen, qosatin esset joq!",Toast.LENGTH_SHORT).show()
+                } else if(etSumma.text.toString()==""){
+                    Toast.makeText(context,"Summa kirgizilmegen yamasa nolge ten. Nolge ten emes san kirgizin!",Toast.LENGTH_SHORT).show()
+                } else{
+            activity.addContact(Contact(etName.text.toString(),etKommentariy.text.toString(),"+${etSumma.text.toString()}","$day.${month+1}.$year",1))
             dismiss()
+            }
         }
         btnQariz.setOnClickListener{
-            activity.addContact(Contact(etName.text.toString(),etKommentariy.text.toString(),"-${etSumma.text.toString()}","$day.${month+1}.$year"))
-            dismiss()
+            if(etName.text.toString() == ""){
+                Toast.makeText(context,"Ati kirgizilmegen, qosatin esset joq!",Toast.LENGTH_SHORT).show()
+            } else if(etSumma.text.toString()==""){
+                Toast.makeText(context,"Summa kirgizilmegen yamasa nolge ten. Nolge ten emes san kirgizin!",Toast.LENGTH_SHORT).show()
+            } else{
+                activity.addContact(Contact(etName.text.toString(),etKommentariy.text.toString(),"-${etSumma.text.toString()}","$day.${month+1}.$year",0))
+                dismiss()
+            }
         }
         btnBiykarlaw.setOnClickListener {
             dismiss()

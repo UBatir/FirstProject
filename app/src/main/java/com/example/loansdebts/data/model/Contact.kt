@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "notebook")
 data class Contact(
-    @ColumnInfo(name="name") val name:String,
+    @ColumnInfo(name="name") var name:String,
     @ColumnInfo(name="comment") val comment:String?,
     @ColumnInfo(name="summa") val summa:String,
     @ColumnInfo(name="date") val date:String,
