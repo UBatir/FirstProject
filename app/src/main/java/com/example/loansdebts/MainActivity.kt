@@ -18,6 +18,7 @@ import com.example.loansdebts.data.NotebookDatabase
 import com.example.loansdebts.data.dao.ContactDao
 import com.example.loansdebts.data.model.Contact
 import com.example.loansdebts.ui.CustomDialog
+import com.example.loansdebts.ui.DialogChangeBalance
 import com.example.loansdebts.ui.DialogRename
 import com.example.loansdebts.ui.ListAdapter
 import kotlinx.android.synthetic.main.content_main.recyclerView
@@ -83,7 +84,7 @@ class MainActivity : AppCompatActivity() {
         adapter.models=dao.getAllContact()
     }
 
-    fun renameContact(contact: Contact){
+    fun rewriteContact(contact: Contact){
         dao.updateContact(contact)
         adapter.models=dao.getAllContact()
     }
@@ -95,6 +96,10 @@ class MainActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.menu_item_options,optionsMenu.menu)
         optionsMenu.setOnMenuItemClickListener {
             when(it.itemId){
+                R.id.itemChangeBalance->{
+                    val dialog=DialogChangeBalance(this,id)
+                    dialog.show()
+                }
                 R.id.itemRename->{
                     val dialog=DialogRename(id,this)
                     dialog.show()

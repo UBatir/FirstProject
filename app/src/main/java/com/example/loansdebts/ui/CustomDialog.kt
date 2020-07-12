@@ -25,22 +25,22 @@ class CustomDialog(context: Context, private val activity: MainActivity):Dialog(
         val day=c.get(Calendar.DAY_OF_MONTH)
         tvSane.text="$day.${month+1}.$year"
         btnPayda.setOnClickListener {
-            if(etName.text.toString() == ""){
+            if(actvName.text.toString() == ""){
                 Toast.makeText(context,"Ati kirgizilmegen, qosatin esset joq!",Toast.LENGTH_SHORT).show()
                 } else if(etSumma.text.toString()==""){
                     Toast.makeText(context,"Summa kirgizilmegen yamasa nolge ten. Nolge ten emes san kirgizin!",Toast.LENGTH_SHORT).show()
                 } else{
-            activity.addContact(Contact(etName.text.toString(),etKommentariy.text.toString(),"+${etSumma.text.toString()}","$day.${month+1}.$year",1))
+            activity.addContact(Contact(actvName.text.toString(),etKommentariy.text.toString(),etSumma.text.toString(),"$day.${month+1}.$year",1))
             dismiss()
             }
         }
         btnQariz.setOnClickListener{
-            if(etName.text.toString() == ""){
+            if(actvName.text.toString() == ""){
                 Toast.makeText(context,"Ati kirgizilmegen, qosatin esset joq!",Toast.LENGTH_SHORT).show()
             } else if(etSumma.text.toString()==""){
                 Toast.makeText(context,"Summa kirgizilmegen yamasa nolge ten. Nolge ten emes san kirgizin!",Toast.LENGTH_SHORT).show()
             } else{
-                activity.addContact(Contact(etName.text.toString(),etKommentariy.text.toString(),"-${etSumma.text.toString()}","$day.${month+1}.$year",0))
+                activity.addContact(Contact(actvName.text.toString(),etKommentariy.text.toString(),"-${etSumma.text.toString()}","$day.${month+1}.$year",0))
                 dismiss()
             }
         }

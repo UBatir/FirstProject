@@ -18,10 +18,11 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:text="Qosiw"
+        android:gravity="bottom"
         android:textColor="#DE000000"/>
 
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/etName"
+    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+        android:id="@+id/actvName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Adamnin ati"
@@ -38,8 +39,8 @@
         android:hint="Summa"
         android:inputType="number"
         app:layout_constraintEnd_toStartOf="@id/tvSane"
-        app:layout_constraintStart_toStartOf="@id/etName"
-        app:layout_constraintTop_toBottomOf="@id/etName"
+        app:layout_constraintStart_toStartOf="@id/actvName"
+        app:layout_constraintTop_toBottomOf="@id/actvName"
         android:layout_marginTop="8dp"/>
 
     <TextView
@@ -47,8 +48,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@id/etSumma"
-        app:layout_constraintEnd_toEndOf="@id/etName"
-        app:layout_constraintTop_toBottomOf="@id/etName"
+        app:layout_constraintEnd_toEndOf="@id/actvName"
+        app:layout_constraintTop_toBottomOf="@id/actvName"
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:text="25 июн.2020"

@@ -1,7 +1,6 @@
 package com.example.loansdebts.ui
 
 import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
 import com.example.loansdebts.MainActivity
 import com.example.loansdebts.R
@@ -20,9 +19,10 @@ class DialogRename(private val id: Int,private val activity:MainActivity): Dialo
         dao=NotebookDatabase.getInstance(activity).dao()
         currentContact=dao.getContactById(id)
         etRename.setText(currentContact.name)
+        tvRename.text = currentContact.name
         btnAtinOzgertiw.setOnClickListener {
             currentContact.name=etRename.text.toString()
-            activity.renameContact(currentContact)
+            activity.rewriteContact(currentContact)
             dismiss()
         }
         btnBiykarlaw.setOnClickListener {

@@ -1,5 +1,6 @@
 package com.example.loansdebts.ui
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -14,18 +15,23 @@ class ListAdapter(private val activity: MainActivity):RecyclerView.Adapter<ListA
 
 
     inner class ListViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
-        fun populateModel(model:Contact,activity: MainActivity){
+        @SuppressLint("SetTextI18n")
+        fun populateModel(model:Contact, activity: MainActivity){
             itemView.tvName.text=model.name
-            itemView.tvSumma.text=model.summa
             itemView.tvKommentariy.text=model.comment
             itemView.btnOptions.setOnClickListener{
                 activity.onOptionsButtonClick(itemView.btnOptions,model,model.id)
             }
             if(model.debt==1){
                 itemView.tvSumma.setTextColor(Color.rgb(76,175,80))
+                itemView.tvSumma.text="+${model.summa}"
+            }else if(model.debt==-1){
+                itemView.tvSumma.setTextColor(Color.rgb(97,97,97))
+                itemView.tvSumma.text= model.summa
             }
             else{
                 itemView.tvSumma.setTextColor(Color.rgb(229,57,53))
+                itemView.tvSumma.text= model.summa
             }
         }
     }
