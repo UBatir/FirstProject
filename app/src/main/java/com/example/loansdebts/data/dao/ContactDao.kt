@@ -20,4 +20,7 @@ interface ContactDao {
 
     @Query("SELECT * FROM notebook where id=:id")
     fun getContactById(id:Int):Contact
+//
+//    @Query("SELECT SUM(summa) FROM notebook where debt=1")
+//    fun getCountSum():List<Contact>
 }

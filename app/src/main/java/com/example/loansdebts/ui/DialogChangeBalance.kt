@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.widget.Toast
 import com.example.loansdebts.MainActivity
 import com.example.loansdebts.R
 import com.example.loansdebts.data.NotebookDatabase
@@ -61,34 +62,34 @@ class DialogChangeBalance(private val activity: MainActivity,private val id:Int)
         }
         etSumma.addTextChangedListener( object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
-                val a = if (etSumma.text.toString().trim() == "") 0 else etSumma.text.toString().toInt()
-                if(currentContact.debt==1){
-                    tvPlusText.setTextColor(Color.rgb(76,175,80))
-                    tvPlusText.text = "+${currentContact.summa.toInt()+ a}"
-                    if(currentContact.summa.toInt()- a>0){
-                        tvMinusText.setTextColor(Color.rgb(76,175,80))
-                        tvMinusText.text = "+${currentContact.summa.toInt()- a}"
-                    }else if(currentContact.summa.toInt()- a<0){
-                        tvMinusText.setTextColor(Color.rgb(229,57,53))
-                        tvMinusText.text = "${currentContact.summa.toInt()- a}"
-                    }else{
-                        tvMinusText.setTextColor(Color.rgb(97,97,97))
-                        tvMinusText.text = "${currentContact.summa.toInt()- a}"
-                    }
-                } else{
-                    tvMinusText.setTextColor(Color.rgb(229,57,53))
-                    tvMinusText.text = "${currentContact.summa.toInt()- a}"
-                    if(currentContact.summa.toInt()+ a>0){
+                val a=if (etSumma.text.toString().trim() == "") 0 else etSumma.text.toString().toInt()
+                    if(currentContact.debt==1){
                         tvPlusText.setTextColor(Color.rgb(76,175,80))
                         tvPlusText.text = "+${currentContact.summa.toInt()+ a}"
-                    }else if(currentContact.summa.toInt()+ a<0){
-                        tvPlusText.setTextColor(Color.rgb(229,57,53))
-                        tvPlusText.text = "${currentContact.summa.toInt()+ a}"
-                    }else{
-                        tvPlusText.setTextColor(Color.rgb(97,97,97))
-                        tvPlusText.text = "${currentContact.summa.toInt()+ a}"
+                        if(currentContact.summa.toInt()- a>0){
+                            tvMinusText.setTextColor(Color.rgb(76,175,80))
+                            tvMinusText.text = "+${currentContact.summa.toInt()- a}"
+                        }else if(currentContact.summa.toInt()- a<0){
+                            tvMinusText.setTextColor(Color.rgb(229,57,53))
+                            tvMinusText.text = "${currentContact.summa.toInt()- a}"
+                        }else{
+                            tvMinusText.setTextColor(Color.rgb(97,97,97))
+                            tvMinusText.text = "${currentContact.summa.toInt()- a}"
+                        }
+                    } else{
+                        tvMinusText.setTextColor(Color.rgb(229,57,53))
+                        tvMinusText.text = "${currentContact.summa.toInt()- a}"
+                        if(currentContact.summa.toInt()+ a>0){
+                            tvPlusText.setTextColor(Color.rgb(76,175,80))
+                            tvPlusText.text = "+${currentContact.summa.toInt()+ a}"
+                        }else if(currentContact.summa.toInt()+ a<0){
+                            tvPlusText.setTextColor(Color.rgb(229,57,53))
+                            tvPlusText.text = "${currentContact.summa.toInt()+ a}"
+                        }else{
+                            tvPlusText.setTextColor(Color.rgb(97,97,97))
+                            tvPlusText.text = "${currentContact.summa.toInt()+ a}"
+                        }
                     }
-                }
             }
 
             override fun beforeTextChanged(
@@ -108,54 +109,65 @@ class DialogChangeBalance(private val activity: MainActivity,private val id:Int)
             }
         })
         btnPlus.setOnClickListener{
-            val a = if (etSumma.text.toString().trim() == "") 0 else etSumma.text.toString().toInt()
-            if(currentContact.debt==1){
-            currentContact.debt=1
-            tvPlusText.text = "${currentContact.summa.toInt()+ a}"
+            if (etSumma.text.toString().trim() == ""||etSumma.text.toString().toInt()==0) {
+                Toast.makeText(context,"Summa kirgizilmegen yamasa nolge ten. Nolge ten emes san kirgizin!",
+                    Toast.LENGTH_SHORT).show()
             } else{
-                if(currentContact.summa.toInt()+ a>0){
-                currentContact.debt=1
-                tvPlusText.text = "${currentContact.summa.toInt()+ a}"
-                }else if(currentContact.summa.toInt()+ a<0){
-                currentContact.debt=0
-                tvPlusText.text = "${currentContact.summa.toInt()+ a}"
-                }else if(currentContact.summa.toInt()+ a==0){
-                currentContact.debt=-1
-                tvPlusText.text = "${currentContact.summa.toInt()+ a}"
+                val a=etSumma.text.toString().toInt()
+                if(currentContact.debt==1){
+                    currentContact.debt=1
+                    tvPlusText.text = "${currentContact.summa.toInt()+ a}"
+                } else{
+                    if(currentContact.summa.toInt()+ a>0){
+                    currentContact.debt=1
+                    tvPlusText.text = "${currentContact.summa.toInt()+ a}"
+                    }else if(currentContact.summa.toInt()+ a<0){
+                    currentContact.debt=0
+                    tvPlusText.text = "${currentContact.summa.toInt()+ a}"
+                    } else if(currentContact.summa.toInt()+ a==0){
+                    currentContact.debt=-1
+                    tvPlusText.text = "${currentContact.summa.toInt()+ a}"
+                    }
                 }
+
+                currentContact.summa=tvPlusText.text.toString()
+                activity.rewriteContact(currentContact)
+                dismiss()
             }
-            currentContact.summa=tvPlusText.text.toString()
-            activity.rewriteContact(currentContact)
-            dismiss()
         }
         btnMinus.setOnClickListener{
-            val a = if (etSumma.text.toString().trim() == "") 0 else etSumma.text.toString().toInt()
-            if(currentContact.debt==0) {
-                if(currentContact.summa.toInt()+ a>0){
-                    currentContact.debt=0
-                    tvMinusText.text = "${currentContact.summa.toInt()- a}"
-                }else if(currentContact.summa.toInt()+ a<0){
-                    currentContact.debt=0
-                    tvMinusText.text = "${currentContact.summa.toInt()- a}"
-                }else{
-                    tvMinusText.setTextColor(Color.rgb(97,97,97))
-                    tvMinusText.text = "${currentContact.summa.toInt()+ a}"
-                }
-            }else{
-                if(currentContact.summa.toInt()- a>0){
-                    currentContact.debt=1
-                    tvMinusText.text = "${currentContact.summa.toInt() - a}"
-                }else if(currentContact.summa.toInt()- a<0){
-                    currentContact.debt=0
-                    tvMinusText.text = "${currentContact.summa.toInt() - a}"
-                }else{
-                    currentContact.debt=-1
-                    tvMinusText.text = "${currentContact.summa.toInt() - a}"
-                }
+            if (etSumma.text.toString().trim() == ""||etSumma.text.toString().toInt()==0) {
+                Toast.makeText(context,"Summa kirgizilmegen yamasa nolge ten. Nolge ten emes san kirgizin!",Toast.LENGTH_SHORT).show()
             }
-            currentContact.summa=tvMinusText.text.toString()
-            activity.rewriteContact(currentContact)
-            dismiss()
+            else{
+                val a=etSumma.text.toString().toInt()
+                if(currentContact.debt==0) {
+                    if(currentContact.summa.toInt()+ a>0){
+                        currentContact.debt=0
+                        tvMinusText.text = "${currentContact.summa.toInt()- a}"
+                    }else if(currentContact.summa.toInt()+ a<0){
+                        currentContact.debt=0
+                        tvMinusText.text = "${currentContact.summa.toInt()- a}"
+                    }else{
+                        tvMinusText.setTextColor(Color.rgb(97,97,97))
+                        tvMinusText.text = "${currentContact.summa.toInt()+ a}"
+                    }
+                }else{
+                    if(currentContact.summa.toInt()- a>0){
+                        currentContact.debt=1
+                        tvMinusText.text = "${currentContact.summa.toInt() - a}"
+                    }else if(currentContact.summa.toInt()- a<0){
+                        currentContact.debt=0
+                        tvMinusText.text = "${currentContact.summa.toInt() - a}"
+                    }else{
+                        currentContact.debt=-1
+                        tvMinusText.text = "${currentContact.summa.toInt() - a}"
+                    }
+                }
+                currentContact.summa=tvMinusText.text.toString()
+                activity.rewriteContact(currentContact)
+                dismiss()
+            }
         }
     }
 }
