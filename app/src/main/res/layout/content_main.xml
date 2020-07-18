@@ -12,5 +12,6 @@
         android:layout_height="match_parent"
         android:id="@+id/recyclerView"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:orientation="vertical"/>
+        android:orientation="vertical"
+        android:background="#DCD9D9"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

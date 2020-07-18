@@ -1,42 +1,46 @@
 package com.example.loansdebts
 
-import android.icu.text.Transliterator
+import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.provider.ContactsContract
+import android.util.Log
 import android.view.Menu
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.navigation.NavigationView
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
-import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.drawerlayout.widget.DrawerLayout
 import com.example.loansdebts.data.NotebookDatabase
 import com.example.loansdebts.data.dao.ContactDao
 import com.example.loansdebts.data.model.Contact
-import com.example.loansdebts.ui.CustomDialog
-import com.example.loansdebts.ui.DialogChangeBalance
-import com.example.loansdebts.ui.DialogRename
-import com.example.loansdebts.ui.ListAdapter
-import kotlinx.android.synthetic.main.content_main.recyclerView
+import com.example.loansdebts.ui.*
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.content_main.*
+import java.util.ArrayList
+import java.util.HashMap
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),ContactItemClickListener {
 
-    private val adapter=ListAdapter(this)
+    private val adapter=ListAdapter(this,this)
     private lateinit var dao:ContactDao
+    private lateinit var mPeopleList: ArrayList<Map<String, String>>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        mPeopleList = ArrayList()
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         recyclerView.adapter=adapter
-        recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         dao=NotebookDatabase.getInstance(this).dao()
         adapter.models= dao.getAllContact()
         val fab: FloatingActionButton = findViewById(R.id.fab)
@@ -89,13 +93,14 @@ class MainActivity : AppCompatActivity() {
         adapter.models=dao.getAllContact()
     }
 
-
     fun onOptionsButtonClick(view: View,contact: Contact,id:Int){
         val optionsMenu=PopupMenu(this,view)
         val menuInflater=optionsMenu.menuInflater
         menuInflater.inflate(R.menu.menu_item_options,optionsMenu.menu)
         optionsMenu.setOnMenuItemClickListener {
             when(it.itemId){
+                R.id.itemAmount->{
+                }
                 R.id.itemChangeBalance->{
                     val dialog=DialogChangeBalance(this,id)
                     dialog.show()
@@ -126,4 +131,10 @@ class MainActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.main, menu)
         return true
     }
+
+    override fun onContactItemClick(id:Int) {
+        val dialog=DialogChangeBalance(this,id)
+        dialog.show()
+    }
+
 }

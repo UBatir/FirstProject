@@ -11,7 +11,7 @@ import com.example.loansdebts.R
 import com.example.loansdebts.data.model.Contact
 import kotlinx.android.synthetic.main.item_contact.view.*
 
-class ListAdapter(private val activity: MainActivity):RecyclerView.Adapter<ListAdapter.ListViewHolder>() {
+class ListAdapter(private val activity: MainActivity,private val listener: ContactItemClickListener):RecyclerView.Adapter<ListAdapter.ListViewHolder>() {
 
 
     inner class ListViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
@@ -22,16 +22,23 @@ class ListAdapter(private val activity: MainActivity):RecyclerView.Adapter<ListA
             itemView.btnOptions.setOnClickListener{
                 activity.onOptionsButtonClick(itemView.btnOptions,model,model.id)
             }
-            if(model.debt==1){
-                itemView.tvSumma.setTextColor(Color.rgb(76,175,80))
-                itemView.tvSumma.text="+${model.summa}"
-            }else if(model.debt==-1){
-                itemView.tvSumma.setTextColor(Color.rgb(97,97,97))
-                itemView.tvSumma.text= model.summa
+            when (model.debt) {
+                1 -> {
+                    itemView.tvSumma.setTextColor(Color.rgb(76,175,80))
+                    itemView.tvSumma.text="+${model.summa}"
+                }
+                -1 -> {
+                    itemView.tvSumma.setTextColor(Color.rgb(97,97,97))
+                    itemView.tvSumma.text= model.summa
+                }
+                else -> {
+                    itemView.tvSumma.setTextColor(Color.rgb(229,57,53))
+                    itemView.tvSumma.text= model.summa
+                }
             }
-            else{
-                itemView.tvSumma.setTextColor(Color.rgb(229,57,53))
-                itemView.tvSumma.text= model.summa
+
+            itemView.setOnClickListener {
+                listener.onContactItemClick(model.id)
             }
         }
     }
