@@ -1,4 +1,4 @@
-package com.example.loansdebts.ui
+package com.example.loansdebts.ui.dialog.contact
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
@@ -10,17 +10,16 @@ import android.widget.AdapterView
 import android.widget.AutoCompleteTextView
 import android.widget.SimpleAdapter
 import android.widget.Toast
-import com.example.loansdebts.MainActivity
+import com.example.loansdebts.ui.main.MainActivity
 import com.example.loansdebts.R
 import com.example.loansdebts.data.model.Contact
 import kotlinx.android.synthetic.main.dialog_add_contact.*
 import kotlinx.android.synthetic.main.dialog_add_contact.etKommentariy
 import kotlinx.android.synthetic.main.dialog_add_contact.etSumma
 import kotlinx.android.synthetic.main.dialog_add_contact.tvSane
-import kotlinx.android.synthetic.main.dialog_change_balance.*
 import java.util.*
 
-class CustomDialog(context: Context, private val activity: MainActivity):Dialog(context)    {
+class AddContactDialog(context: Context, private val activity: MainActivity):Dialog(context)    {
 
     private lateinit var mPeopleList:ArrayList<Map<String, String>>
     private lateinit var mAdapter: SimpleAdapter

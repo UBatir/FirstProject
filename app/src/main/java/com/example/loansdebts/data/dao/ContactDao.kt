@@ -20,7 +20,13 @@ interface ContactDao {
 
     @Query("SELECT * FROM notebook where id=:id")
     fun getContactById(id:Int):Contact
-//
-//    @Query("SELECT SUM(summa) FROM notebook where debt=1")
-//    fun getCountSum():List<Contact>
+
+    @Query("SELECT * FROM notebook ORDER BY name")
+    fun sortByName():List<Contact>
+
+    @Query("SELECT * FROM notebook ORDER BY summa")
+    fun sortBySum():List<Contact>
+
+    @Query("SELECT * FROM notebook ORDER BY date")
+    fun sortByDate():List<Contact>
 }

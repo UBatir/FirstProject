@@ -1,4 +1,4 @@
-package com.example.loansdebts.ui
+package com.example.loansdebts.ui.main
 
 import android.annotation.SuppressLint
 import android.graphics.Color
@@ -6,12 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.loansdebts.MainActivity
 import com.example.loansdebts.R
 import com.example.loansdebts.data.model.Contact
 import kotlinx.android.synthetic.main.item_contact.view.*
 
-class ListAdapter(private val activity: MainActivity,private val listener: ContactItemClickListener):RecyclerView.Adapter<ListAdapter.ListViewHolder>() {
+class ListAdapter(private val activity: MainActivity, private val listener: ContactItemClickListener):RecyclerView.Adapter<ListAdapter.ListViewHolder>() {
 
 
     inner class ListViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){

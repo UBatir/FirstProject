@@ -1,4 +1,4 @@
-package com.example.loansdebts.ui
+package com.example.loansdebts.ui.dialog.rename
 
 import android.app.Dialog
 import android.os.Bundle
@@ -6,17 +6,16 @@ import android.provider.ContactsContract
 import android.widget.AdapterView
 import android.widget.AutoCompleteTextView
 import android.widget.SimpleAdapter
-import com.example.loansdebts.MainActivity
+import com.example.loansdebts.ui.main.MainActivity
 import com.example.loansdebts.R
 import com.example.loansdebts.data.NotebookDatabase
 import com.example.loansdebts.data.dao.ContactDao
 import com.example.loansdebts.data.model.Contact
-import kotlinx.android.synthetic.main.dialog_change_balance.*
 import kotlinx.android.synthetic.main.dialog_rename.*
 import java.util.ArrayList
 import java.util.HashMap
 
-class DialogRename(private val id: Int,private val activity:MainActivity): Dialog(activity) {
+class DialogRename(private val id: Int,private val activity: MainActivity): Dialog(activity) {
 
     lateinit var dao:ContactDao
     lateinit var currentContact: Contact

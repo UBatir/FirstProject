@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:minWidth="280dp">
+
+    <TextView
+        android:id="@+id/tvTitleSort"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:text="Kontaktlar dizimi"
+        android:textStyle="bold"
+        android:gravity="bottom"
+        android:textSize="20sp"
+        android:textColor="@android:color/black"/>
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="#669E9B9B"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitleSort"/>
+
+    <TextView
+        android:id="@+id/tvSortName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/tvTitleSort"
+        app:layout_constraintEnd_toEndOf="@id/tvTitleSort"
+        app:layout_constraintTop_toBottomOf="@id/tvTitleSort"
+        android:layout_marginTop="@dimen/margin_standard"
+        android:textSize="16sp"
+        android:text="Ati boyinsha sortirovka"
+        android:textColor="@android:color/black"/>
+
+
+    <TextView
+        android:id="@+id/tvSortSum"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/tvSortName"
+        app:layout_constraintEnd_toEndOf="@id/tvSortName"
+        app:layout_constraintTop_toBottomOf="@id/tvSortName"
+        android:layout_marginTop="@dimen/margin_standard"
+        android:textSize="16sp"
+        android:text="Sum boyinsha sortirovka"
+        android:textColor="@android:color/black"/>
+
+
+    <TextView
+        android:id="@+id/tvSortDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/tvSortSum"
+        app:layout_constraintEnd_toEndOf="@id/tvSortSum"
+        app:layout_constraintTop_toBottomOf="@id/tvSortSum"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="@dimen/margin_standard"
+        android:textSize="16sp"
+        android:text="Sane boyinsha sortirovka"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="@dimen/margin_standard"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -36,8 +36,10 @@
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/etSumma"
         android:layout_width="0dp"
+        android:drawableStart="@drawable/ic_baseline_attach_money_24"
         android:layout_height="wrap_content"
         android:hint="Summa"
+
         android:inputType="number"
         app:layout_constraintEnd_toStartOf="@id/tvSane"
         app:layout_constraintStart_toStartOf="@id/actvName"

@@ -1,4 +1,4 @@
-package com.example.loansdebts.ui
+package com.example.loansdebts.ui.dialog.changebalance
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
@@ -8,17 +8,16 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Toast
-import com.example.loansdebts.MainActivity
+import com.example.loansdebts.ui.main.MainActivity
 import com.example.loansdebts.R
 import com.example.loansdebts.data.NotebookDatabase
 import com.example.loansdebts.data.dao.ContactDao
 import com.example.loansdebts.data.model.Contact
 import kotlinx.android.synthetic.main.dialog_change_balance.*
-import kotlinx.android.synthetic.main.item_contact.view.*
 import java.util.*
 
 
-class DialogChangeBalance(private val activity: MainActivity,private val id:Int):Dialog(activity) {
+class DialogChangeBalance(private val activity: MainActivity, private val id:Int):Dialog(activity) {
 
     lateinit var dao: ContactDao
     lateinit var currentContact:Contact

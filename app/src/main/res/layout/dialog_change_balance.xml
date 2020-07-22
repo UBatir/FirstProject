@@ -41,15 +41,27 @@
         android:layout_marginStart="8dp"
         android:text="200"/>
 
+    <View
+        android:id="@+id/line"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="#669E9B9B"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="@id/tvName"
+        app:layout_constraintEnd_toEndOf="@id/tvSumma"
+        app:layout_constraintTop_toBottomOf="@id/tvName"
+        app:layout_constraintBottom_toTopOf="@id/etSumma"/>
+
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/etSumma"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Summa"
+        android:drawableStart="@drawable/ic_baseline_attach_money_24"
         android:inputType="number"
-        app:layout_constraintStart_toStartOf="@id/tvName"
+        app:layout_constraintStart_toStartOf="@id/line"
         app:layout_constraintEnd_toStartOf="@id/tvSane"
-        app:layout_constraintTop_toBottomOf="@id/tvName"
+        app:layout_constraintTop_toBottomOf="@id/line"
         android:layout_marginTop="8dp"/>
 
     <TextView
@@ -57,8 +69,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@id/etSumma"
-        app:layout_constraintEnd_toEndOf="@id/tvSumma"
-        app:layout_constraintTop_toBottomOf="@id/tvSumma"
+        app:layout_constraintEnd_toEndOf="@id/line"
+        app:layout_constraintTop_toBottomOf="@id/line"
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:text="25 июн.2020"
