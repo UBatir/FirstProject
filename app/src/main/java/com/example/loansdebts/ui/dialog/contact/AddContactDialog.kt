@@ -54,10 +54,10 @@ class AddContactDialog(context: Context, private val activity: MainActivity):Dia
         btnPayda.setOnClickListener {
             if(actvName.text.toString() == ""){
                 Toast.makeText(context,"Ati kirgizilmegen, qosatin esset joq!",Toast.LENGTH_SHORT).show()
-                } else if(etSumma.text.toString()==""||etSumma.text.toString().toInt()==0){
+                } else if(etSumma.text.toString()==""||etSumma.text.toString().toLong().toInt()==0){
                     Toast.makeText(context,"Summa kirgizilmegen yamasa nolge ten. Nolge ten emes san kirgizin!",Toast.LENGTH_SHORT).show()
                 } else{
-            activity.addContact(Contact(actvName.text.toString(),etKommentariy.text.toString(),etSumma.text.toString(),"$day.${month+1}.$year",1))
+            activity.addContact(Contact(actvName.text.toString(),etKommentariy.text.toString(),etSumma.text.toString().toLong(),"$day.${month+1}.$year",1))
             dismiss()
             }
         }
@@ -67,7 +67,7 @@ class AddContactDialog(context: Context, private val activity: MainActivity):Dia
             } else if(etSumma.text.toString()==""||etSumma.text.toString().toInt()==0){
                 Toast.makeText(context,"Summa kirgizilmegen yamasa nolge ten. Nolge ten emes san kirgizin!",Toast.LENGTH_SHORT).show()
             } else{
-                activity.addContact(Contact(actvName.text.toString(),etKommentariy.text.toString(),"-${etSumma.text.toString()}","$day.${month+1}.$year",0))
+                activity.addContact(Contact(actvName.text.toString(),etKommentariy.text.toString(),-etSumma.text.toString().toLong(),"$day.${month+1}.$year",0))
                 dismiss()
             }
         }

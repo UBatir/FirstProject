@@ -29,7 +29,7 @@ class DialogChangeBalance(private val activity: MainActivity, private val id:Int
         dao=NotebookDatabase.getInstance(activity).dao()
         currentContact=dao.getContactById(id)
         tvName.text=currentContact.name
-        tvSumma.text=currentContact.summa
+        tvSumma.text=currentContact.summa.toString()
         val c= Calendar.getInstance()
         val year=c.get(Calendar.YEAR)
         val month=c.get(Calendar.MONTH)
@@ -50,43 +50,43 @@ class DialogChangeBalance(private val activity: MainActivity, private val id:Int
         }else if(currentContact.debt==-1){
             tvPlusText.setTextColor(Color.rgb(97,97,97))
             tvMinusText.setTextColor(Color.rgb(97,97,97))
-            tvMinusText.text = currentContact.summa
-            tvPlusText.text = currentContact.summa
+            tvMinusText.text = currentContact.summa.toString()
+            tvPlusText.text = currentContact.summa.toString()
         }
         else{
             tvMinusText.setTextColor(Color.rgb(229,57,53))
             tvPlusText.setTextColor(Color.rgb(229,57,53))
-            tvMinusText.text = currentContact.summa
-            tvPlusText.text = currentContact.summa
+            tvMinusText.text = currentContact.summa.toString()
+            tvPlusText.text = currentContact.summa.toString()
         }
         etSumma.addTextChangedListener( object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
-                val a=if (etSumma.text.toString().trim() == "") 0 else etSumma.text.toString().toInt()
+                val a=if (etSumma.text.toString().trim() == "") 0 else etSumma.text.toString().toLong()
                     if(currentContact.debt==1){
                         tvPlusText.setTextColor(Color.rgb(76,175,80))
-                        tvPlusText.text = "+${currentContact.summa.toInt()+ a}"
-                        if(currentContact.summa.toInt()- a>0){
+                        tvPlusText.text = "+${currentContact.summa+ a}"
+                        if(currentContact.summa- a>0){
                             tvMinusText.setTextColor(Color.rgb(76,175,80))
-                            tvMinusText.text = "+${currentContact.summa.toInt()- a}"
-                        }else if(currentContact.summa.toInt()- a<0){
+                            tvMinusText.text = "+${currentContact.summa- a}"
+                        }else if(currentContact.summa- a<0){
                             tvMinusText.setTextColor(Color.rgb(229,57,53))
-                            tvMinusText.text = "${currentContact.summa.toInt()- a}"
+                            tvMinusText.text = "${currentContact.summa- a}"
                         }else{
                             tvMinusText.setTextColor(Color.rgb(97,97,97))
-                            tvMinusText.text = "${currentContact.summa.toInt()- a}"
+                            tvMinusText.text = "${currentContact.summa- a}"
                         }
                     } else{
                         tvMinusText.setTextColor(Color.rgb(229,57,53))
-                        tvMinusText.text = "${currentContact.summa.toInt()- a}"
-                        if(currentContact.summa.toInt()+ a>0){
+                        tvMinusText.text = "${currentContact.summa- a}"
+                        if(currentContact.summa+ a>0){
                             tvPlusText.setTextColor(Color.rgb(76,175,80))
-                            tvPlusText.text = "+${currentContact.summa.toInt()+ a}"
-                        }else if(currentContact.summa.toInt()+ a<0){
+                            tvPlusText.text = "+${currentContact.summa+ a}"
+                        }else if(currentContact.summa+ a<0){
                             tvPlusText.setTextColor(Color.rgb(229,57,53))
-                            tvPlusText.text = "${currentContact.summa.toInt()+ a}"
+                            tvPlusText.text = "${currentContact.summa+ a}"
                         }else{
                             tvPlusText.setTextColor(Color.rgb(97,97,97))
-                            tvPlusText.text = "${currentContact.summa.toInt()+ a}"
+                            tvPlusText.text = "${currentContact.summa+ a}"
                         }
                     }
             }
@@ -115,21 +115,21 @@ class DialogChangeBalance(private val activity: MainActivity, private val id:Int
                 val a=etSumma.text.toString().toInt()
                 if(currentContact.debt==1){
                     currentContact.debt=1
-                    tvPlusText.text = "${currentContact.summa.toInt()+ a}"
+                    tvPlusText.text = "${currentContact.summa+ a}"
                 } else{
-                    if(currentContact.summa.toInt()+ a>0){
+                    if(currentContact.summa+ a>0){
                     currentContact.debt=1
-                    tvPlusText.text = "${currentContact.summa.toInt()+ a}"
-                    }else if(currentContact.summa.toInt()+ a<0){
+                    tvPlusText.text = "${currentContact.summa+ a}"
+                    }else if(currentContact.summa+ a<0){
                     currentContact.debt=0
-                    tvPlusText.text = "${currentContact.summa.toInt()+ a}"
+                    tvPlusText.text = "${currentContact.summa+ a}"
                     } else if(currentContact.summa.toInt()+ a==0){
                     currentContact.debt=-1
-                    tvPlusText.text = "${currentContact.summa.toInt()+ a}"
+                    tvPlusText.text = "${currentContact.summa+ a}"
                     }
                 }
 
-                currentContact.summa=tvPlusText.text.toString()
+                currentContact.summa=tvPlusText.text.toString().toLong()
                 activity.rewriteContact(currentContact)
                 dismiss()
             }
@@ -141,29 +141,29 @@ class DialogChangeBalance(private val activity: MainActivity, private val id:Int
             else{
                 val a=etSumma.text.toString().toInt()
                 if(currentContact.debt==0) {
-                    if(currentContact.summa.toInt()+ a>0){
+                    if(currentContact.summa+ a>0){
                         currentContact.debt=0
-                        tvMinusText.text = "${currentContact.summa.toInt()- a}"
-                    }else if(currentContact.summa.toInt()+ a<0){
+                        tvMinusText.text = "${currentContact.summa- a}"
+                    }else if(currentContact.summa+ a<0){
                         currentContact.debt=0
-                        tvMinusText.text = "${currentContact.summa.toInt()- a}"
+                        tvMinusText.text = "${currentContact.summa- a}"
                     }else{
                         tvMinusText.setTextColor(Color.rgb(97,97,97))
-                        tvMinusText.text = "${currentContact.summa.toInt()+ a}"
+                        tvMinusText.text = "${currentContact.summa+ a}"
                     }
                 }else{
-                    if(currentContact.summa.toInt()- a>0){
+                    if(currentContact.summa- a>0){
                         currentContact.debt=1
-                        tvMinusText.text = "${currentContact.summa.toInt() - a}"
-                    }else if(currentContact.summa.toInt()- a<0){
+                        tvMinusText.text = "${currentContact.summa - a}"
+                    }else if(currentContact.summa- a<0){
                         currentContact.debt=0
-                        tvMinusText.text = "${currentContact.summa.toInt() - a}"
+                        tvMinusText.text = "${currentContact.summa - a}"
                     }else{
                         currentContact.debt=-1
-                        tvMinusText.text = "${currentContact.summa.toInt() - a}"
+                        tvMinusText.text = "${currentContact.summa - a}"
                     }
                 }
-                currentContact.summa=tvMinusText.text.toString()
+                currentContact.summa=tvMinusText.text.toString().toLong()
                 activity.rewriteContact(currentContact)
                 dismiss()
             }

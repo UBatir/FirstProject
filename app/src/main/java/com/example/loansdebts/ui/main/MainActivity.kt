@@ -1,6 +1,7 @@
 package com.example.loansdebts.ui.main
 
 import android.annotation.SuppressLint
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
+import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.loansdebts.R
@@ -24,7 +26,6 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
-import java.util.ArrayList
 
 
 class MainActivity : AppCompatActivity(),
@@ -37,6 +38,8 @@ class MainActivity : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        title = "Daptershe"
+        ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_CONTACTS),123)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         recyclerView.adapter=adapter
@@ -137,12 +140,12 @@ class MainActivity : AppCompatActivity(),
             when(it.itemId){
                 R.id.itemAmount ->{
                     val value=contact.summa
-                    contact.summa=0.toString()
+                    contact.summa=0
                     contact.debt=-1
                     val snackBar = Snackbar.make(
                     view, "Siz «${contact.name}» kontakttin «$value» summasin oshirdiniz!", Snackbar.LENGTH_LONG)
                         snackBar.setAction("Biykarlaw"){
-                            if(value.toInt()>0){
+                            if(value>0){
                                 contact.summa=value
                                 contact.debt=1
                             }else{
@@ -200,4 +203,27 @@ class MainActivity : AppCompatActivity(),
         dialog.show()
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if(requestCode==123){
+            if(grantResults[0]== PackageManager.PERMISSION_GRANTED){
+            }
+        }
+    }
+
+    fun sortByName(){
+        adapter.models=dao.sortByName()
+    }
+
+    fun sortBySum(){
+        adapter.models=dao.sortBySum()
+    }
+
+    fun sortByDate(){
+        adapter.models=dao.sortByDate()
+    }
 }

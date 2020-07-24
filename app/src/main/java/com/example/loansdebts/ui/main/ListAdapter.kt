@@ -28,11 +28,11 @@ class ListAdapter(private val activity: MainActivity, private val listener: Cont
                 }
                 -1 -> {
                     itemView.tvSumma.setTextColor(Color.rgb(97,97,97))
-                    itemView.tvSumma.text= model.summa
+                    itemView.tvSumma.text= model.summa.toString()
                 }
                 else -> {
                     itemView.tvSumma.setTextColor(Color.rgb(229,57,53))
-                    itemView.tvSumma.text= model.summa
+                    itemView.tvSumma.text= model.summa.toString()
                 }
             }
 
