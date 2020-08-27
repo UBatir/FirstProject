@@ -1,6 +1,7 @@
 package com.example.loansdebts.ui.main
 
 import android.annotation.SuppressLint
+import android.app.TimePickerDialog
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
@@ -39,7 +40,11 @@ class MainActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         title = "Daptershe"
-        ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_CONTACTS),123)
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(android.Manifest.permission.READ_CONTACTS),
+            123
+        )
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         recyclerView.adapter=adapter
@@ -54,7 +59,8 @@ class MainActivity : AppCompatActivity(),
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
-        val toggle=ActionBarDrawerToggle(this,drawerLayout,toolbar,
+        val toggle=ActionBarDrawerToggle(
+            this, drawerLayout, toolbar,
             R.string.navigation_drawer_open,
             R.string.navigation_drawer_close
         )
@@ -87,12 +93,12 @@ class MainActivity : AppCompatActivity(),
         }
 
         ivSort.setOnClickListener {
-            val dialog=DialogSort(this,this)
+            val dialog=DialogSort(this, this)
             dialog.show()
         }
     }
 
-    fun addContact(contact:Contact){
+    fun addContact(contact: Contact){
         dao.insertContact(contact)
         adapter.models= dao.getAllContact()
         totalSum()
@@ -118,57 +124,60 @@ class MainActivity : AppCompatActivity(),
         }
         when {
             sum>0 -> {
-                tvTotalSum.setTextColor(Color.rgb(76,175,80))
+                tvTotalSum.setTextColor(Color.rgb(76, 175, 80))
                 tvTotalSum.text="+$sum"
             }
             sum==0 -> {
-                tvTotalSum.setTextColor(Color.rgb(209,209,209))
+                tvTotalSum.setTextColor(Color.rgb(209, 209, 209))
                 tvTotalSum.text=sum.toString()
             }
             else -> {
-                tvTotalSum.setTextColor(Color.rgb(229,57,53))
+                tvTotalSum.setTextColor(Color.rgb(229, 57, 53))
                 tvTotalSum.text=sum.toString()
             }
         }
     }
 
-    fun onOptionsButtonClick(view: View, contact: Contact, id:Int){
-        val optionsMenu=PopupMenu(this,view)
+    fun onOptionsButtonClick(view: View, contact: Contact, id: Int){
+        val optionsMenu=PopupMenu(this, view)
         val menuInflater=optionsMenu.menuInflater
-        menuInflater.inflate(R.menu.menu_item_options,optionsMenu.menu)
+        menuInflater.inflate(R.menu.menu_item_options, optionsMenu.menu)
         optionsMenu.setOnMenuItemClickListener {
             when(it.itemId){
-                R.id.itemAmount ->{
-                    val value=contact.summa
-                    contact.summa=0
-                    contact.debt=-1
+                R.id.itemAmount -> {
+                    val value = contact.summa
+                    contact.summa = 0
+                    contact.debt = -1
                     val snackBar = Snackbar.make(
-                    view, "Siz «${contact.name}» kontakttin «$value» summasin oshirdiniz!", Snackbar.LENGTH_LONG)
-                        snackBar.setAction("Biykarlaw"){
-                            if(value>0){
-                                contact.summa=value
-                                contact.debt=1
-                            }else{
-                                contact.summa=value
-                                contact.debt=0
-                            }
-                            rewriteContact(contact)
-                            snackBar.dismiss()
+                        view,
+                        "Siz «${contact.name}» kontakttin «$value» summasin oshirdiniz!",
+                        Snackbar.LENGTH_LONG
+                    )
+                    snackBar.setAction("Biykarlaw") {
+                        if (value > 0) {
+                            contact.summa = value
+                            contact.debt = 1
+                        } else {
+                            contact.summa = value
+                            contact.debt = 0
                         }
-                    snackBar.setActionTextColor(Color.rgb(253,216,53))
+                        rewriteContact(contact)
+                        snackBar.dismiss()
+                    }
+                    snackBar.setActionTextColor(Color.rgb(253, 216, 53))
                     rewriteContact(contact)
                     snackBar.show()
                 }
-                R.id.itemChangeBalance ->{
-                    val dialog=
+                R.id.itemChangeBalance -> {
+                    val dialog =
                         DialogChangeBalance(
                             this,
                             id
                         )
                     dialog.show()
                 }
-                R.id.itemRename ->{
-                    val dialog=
+                R.id.itemRename -> {
+                    val dialog =
                         DialogRename(
                             id,
                             this
@@ -176,15 +185,17 @@ class MainActivity : AppCompatActivity(),
                     dialog.show()
                 }
                 R.id.itemDelete -> {
-                    val dialog=AlertDialog.Builder(this)
+                    val dialog = AlertDialog.Builder(this)
                     dialog.setTitle("Oshiriw")
-                    dialog.setMessage("Rasinda da «${contact.name}» kontaktti joq qilajaqsizba?" +"\n"+"\n"+
-                        "Bul amel tanlag'an kontakt penen baylanisli barliq informaciyani oshirip taslaydi, buni biykarlap bolmaydi."
-                        +"\n"+"\n"+"«${contact.summa}» mug'dari usi kontakt penen baylanisli. Eleda dawam etpekshisizba?")
-                    dialog.setPositiveButton("Oshiriw"){_,_->
+                    dialog.setMessage(
+                        "Rasinda da «${contact.name}» kontaktti joq qilajaqsizba?" + "\n" + "\n" +
+                                "Bul amel tanlag'an kontakt penen baylanisli barliq informaciyani oshirip taslaydi, buni biykarlap bolmaydi."
+                                + "\n" + "\n" + "«${contact.summa}» mug'dari usi kontakt penen baylanisli. Eleda dawam etpekshisizba?"
+                    )
+                    dialog.setPositiveButton("Oshiriw") { _, _ ->
                         removeContact(contact)
                     }
-                    dialog.setNegativeButton("Biykarlaw"){_,_->
+                    dialog.setNegativeButton("Biykarlaw") { _, _ ->
                     }
                     dialog.show()
                 }
@@ -194,7 +205,7 @@ class MainActivity : AppCompatActivity(),
         optionsMenu.show()
     }
 
-    override fun onContactItemClick(id:Int) {
+    override fun onContactItemClick(id: Int) {
         val dialog=
             DialogChangeBalance(
                 this,

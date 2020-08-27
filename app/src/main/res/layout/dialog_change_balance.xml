@@ -52,14 +52,25 @@
         app:layout_constraintTop_toBottomOf="@id/tvName"
         app:layout_constraintBottom_toTopOf="@id/etSumma"/>
 
+    <ImageView
+        android:id="@+id/calculator1"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:layout_constraintStart_toStartOf="@id/line"
+        app:layout_constraintEnd_toStartOf="@id/etSumma"
+        app:layout_constraintTop_toBottomOf="@id/line"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:padding="8dp"
+        android:src="@drawable/calculator"/>
+
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/etSumma"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Summa"
-        android:drawableStart="@drawable/ic_baseline_attach_money_24"
         android:inputType="number"
-        app:layout_constraintStart_toStartOf="@id/line"
+        app:layout_constraintStart_toEndOf="@id/calculator1"
         app:layout_constraintEnd_toStartOf="@id/tvSane"
         app:layout_constraintTop_toBottomOf="@id/line"
         android:layout_marginTop="8dp"/>
@@ -81,7 +92,7 @@
         android:id="@+id/etKommentariy"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/etSumma"
+        app:layout_constraintStart_toStartOf="@id/calculator1"
         app:layout_constraintEnd_toEndOf="@id/tvSane"
         app:layout_constraintTop_toBottomOf="@id/etSumma"
         android:layout_marginTop="8dp"

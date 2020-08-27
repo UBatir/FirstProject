@@ -13,11 +13,17 @@ import com.example.loansdebts.R
 import com.example.loansdebts.data.NotebookDatabase
 import com.example.loansdebts.data.dao.ContactDao
 import com.example.loansdebts.data.model.Contact
+import com.example.loansdebts.ui.dialog.CalculatorDialog
+import com.example.loansdebts.ui.dialog.DataDialog
+import com.example.loansdebts.ui.dialog.SetData
+import kotlinx.android.synthetic.main.dialog_add_contact.*
 import kotlinx.android.synthetic.main.dialog_change_balance.*
+import kotlinx.android.synthetic.main.dialog_change_balance.etSumma
+import kotlinx.android.synthetic.main.dialog_change_balance.tvSane
 import java.util.*
 
 
-class DialogChangeBalance(private val activity: MainActivity, private val id:Int):Dialog(activity) {
+class DialogChangeBalance(private val activity: MainActivity, private val id:Int):Dialog(activity),SetData{
 
     lateinit var dao: ContactDao
     lateinit var currentContact:Contact
@@ -36,11 +42,8 @@ class DialogChangeBalance(private val activity: MainActivity, private val id:Int
         val day=c.get(Calendar.DAY_OF_MONTH)
         tvSane.text="$day.${month+1}.$year"
         tvSane.setOnClickListener{
-            val sane= DatePickerDialog(activity,
-                DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-                tvSane.text = "$dayOfMonth.${month+1}.$year"
-            }, year,month,day)
-            sane.show()
+            val dialog= DataDialog(context,this)
+            dialog.show()
         }
         if(currentContact.debt==1){
             tvMinusText.setTextColor(Color.rgb(76,175,80))
@@ -168,5 +171,20 @@ class DialogChangeBalance(private val activity: MainActivity, private val id:Int
                 dismiss()
             }
         }
+
+        calculator1.setOnClickListener {
+            val dialog= CalculatorDialog(context,this)
+            dialog.show()
+        }
+
     }
+
+    override fun setData(data: String) {
+        tvSane.text=data
+    }
+
+    override fun setSum(sum: Long) {
+        etSumma.setText("$sum")
+    }
+
 }

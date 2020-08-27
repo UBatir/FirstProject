@@ -1,7 +1,6 @@
 package com.example.loansdebts.ui.dialog.contact
 
 import android.annotation.SuppressLint
-import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
@@ -10,16 +9,16 @@ import android.widget.AdapterView
 import android.widget.AutoCompleteTextView
 import android.widget.SimpleAdapter
 import android.widget.Toast
-import com.example.loansdebts.ui.main.MainActivity
 import com.example.loansdebts.R
 import com.example.loansdebts.data.model.Contact
+import com.example.loansdebts.ui.dialog.CalculatorDialog
+import com.example.loansdebts.ui.dialog.DataDialog
+import com.example.loansdebts.ui.dialog.SetData
+import com.example.loansdebts.ui.main.MainActivity
 import kotlinx.android.synthetic.main.dialog_add_contact.*
-import kotlinx.android.synthetic.main.dialog_add_contact.etKommentariy
-import kotlinx.android.synthetic.main.dialog_add_contact.etSumma
-import kotlinx.android.synthetic.main.dialog_add_contact.tvSane
 import java.util.*
 
-class AddContactDialog(context: Context, private val activity: MainActivity):Dialog(context)    {
+class AddContactDialog(context: Context, private val activity: MainActivity):Dialog(context),SetData    {
 
     private lateinit var mPeopleList:ArrayList<Map<String, String>>
     private lateinit var mAdapter: SimpleAdapter
@@ -32,8 +31,10 @@ class AddContactDialog(context: Context, private val activity: MainActivity):Dia
         mPeopleList = ArrayList()
         populatePeopleList()
         mTxtPhoneNo=findViewById(R.id.actvName)
-        mAdapter= SimpleAdapter(context,mPeopleList,R.layout.auto_complete_tv, arrayOf("Name"),
-            intArrayOf(R.id.tvNameContact))
+        mAdapter= SimpleAdapter(
+            context, mPeopleList, R.layout.auto_complete_tv, arrayOf("Name"),
+            intArrayOf(R.id.tvNameContact)
+        )
         mTxtPhoneNo.setAdapter(mAdapter)
         actvName.setSelection(actvName.text!!.length)
 
@@ -53,21 +54,45 @@ class AddContactDialog(context: Context, private val activity: MainActivity):Dia
         tvSane.text="$day.${month+1}.$year"
         btnPayda.setOnClickListener {
             if(actvName.text.toString() == ""){
-                Toast.makeText(context,"Ati kirgizilmegen, qosatin esset joq!",Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Ati kirgizilmegen, qosatin esset joq!", Toast.LENGTH_SHORT).show()
                 } else if(etSumma.text.toString()==""||etSumma.text.toString().toLong().toInt()==0){
-                    Toast.makeText(context,"Summa kirgizilmegen yamasa nolge ten. Nolge ten emes san kirgizin!",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        "Summa kirgizilmegen yamasa nolge ten. Nolge ten emes san kirgizin!",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 } else{
-            activity.addContact(Contact(actvName.text.toString(),etKommentariy.text.toString(),etSumma.text.toString().toLong(),"$day.${month+1}.$year",1))
+            activity.addContact(
+                Contact(
+                    actvName.text.toString(),
+                    etKommentariy.text.toString(),
+                    etSumma.text.toString().toLong(),
+                    "$day.${month + 1}.$year",
+                    1
+                )
+            )
             dismiss()
             }
         }
         btnQariz.setOnClickListener{
             if(actvName.text.toString() == ""){
-                Toast.makeText(context,"Ati kirgizilmegen, qosatin esset joq!",Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Ati kirgizilmegen, qosatin esset joq!", Toast.LENGTH_SHORT).show()
             } else if(etSumma.text.toString()==""||etSumma.text.toString().toInt()==0){
-                Toast.makeText(context,"Summa kirgizilmegen yamasa nolge ten. Nolge ten emes san kirgizin!",Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    "Summa kirgizilmegen yamasa nolge ten. Nolge ten emes san kirgizin!",
+                    Toast.LENGTH_SHORT
+                ).show()
             } else{
-                activity.addContact(Contact(actvName.text.toString(),etKommentariy.text.toString(),-etSumma.text.toString().toLong(),"$day.${month+1}.$year",0))
+                activity.addContact(
+                    Contact(
+                        actvName.text.toString(),
+                        etKommentariy.text.toString(),
+                        -etSumma.text.toString().toLong(),
+                        "$day.${month + 1}.$year",
+                        0
+                    )
+                )
                 dismiss()
             }
         }
@@ -75,24 +100,29 @@ class AddContactDialog(context: Context, private val activity: MainActivity):Dia
             dismiss()
         }
         tvSane.setOnClickListener{
-            val sane=DatePickerDialog(activity,DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-                tvSane.text = "$dayOfMonth.${month+1}.$year"
-            }, year,month,day)
-
-            sane.show()
+            val dialog=DataDialog(context,this)
+            dialog.show()
         }
+        calculator.setOnClickListener {
+            val dialog= CalculatorDialog(context,this)
+            dialog.show()
+        }
+
     }
 
 
     private fun populatePeopleList() {
         mPeopleList.clear()
         val people = activity.contentResolver.query(
-            ContactsContract.Contacts.CONTENT_URI, null, null, null, null)
+            ContactsContract.Contacts.CONTENT_URI, null, null, null, null
+        )
         if (people != null) {
             while (people.moveToNext())
             {
-                val contactName = people.getString(people
-                    .getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
+                val contactName = people.getString(
+                    people
+                        .getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)
+                )
                 if (contactName!=null)
                 {
                     val namePhoneType = HashMap<String, String>()
@@ -103,5 +133,13 @@ class AddContactDialog(context: Context, private val activity: MainActivity):Dia
         }
         people?.close()
         activity.startManagingCursor(people)
+    }
+
+    override fun setData(data: String) {
+        tvSane.text=data
+    }
+
+    override fun setSum(sum: Long) {
+        etSumma.setText("$sum")
     }
 }

@@ -53,5 +53,7 @@ dependencies {
 
     compile 'com.vistrav:ask:2.4'
 
+    implementation'net.objecthunter:exp4j:0.4.8'
+
 
 }
